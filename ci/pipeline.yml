@@ -1,0 +1,44 @@
+---
+resources:
+- name: cfenv
+  type: git
+  source:
+    uri: https://github.com/cwest/cfenv-spring
+    branch: master
+- name: pivotal-web-services
+  type: cf
+  source:
+    api: http://api.run.pivotal.io
+    username: {{pws-username}}
+    password: {{pws-password}}
+    organization: {{pws-organization}}
+    space: {{pws-space}}
+
+jobs:
+- name: make-jar-not-war
+  plan:
+  - get: cfenv
+    trigger: true
+  - task: maven-install
+    platform: linux
+    image_resource:
+      type: docker-image
+      source:
+        repository: java
+        tag: "8"
+      inputs:
+      - name: cfenv
+      outputs:
+      - name: jar
+      run:
+        path: sh
+        args:
+        - exc
+        - |
+          cd cfenv && mvn clean install
+          mv target/cfenv*.jar ../jar/cfenv.jar
+  - put: pivotal-web-services
+    params:
+      path: jar/cfenv.jar
+      current_app_name: cwest-cfenv-spring
+      manifest: cfenv/manifest.yml
