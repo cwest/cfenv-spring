@@ -20,23 +20,7 @@ jobs:
   - get: cfenv
     trigger: true
   - task: maven-install
-    platform: linux
-    image_resource:
-      type: docker-image
-      source:
-        repository: java
-        tag: "8"
-      inputs:
-      - name: cfenv
-      outputs:
-      - name: jar
-      run:
-        path: sh
-        args:
-        - exc
-        - |
-          cd cfenv && mvn clean install
-          mv target/cfenv*.jar ../jar/cfenv.jar
+    file: cfenv/ci/tasks/build.yml
   - put: pivotal-web-services
     params:
       path: jar/cfenv.jar

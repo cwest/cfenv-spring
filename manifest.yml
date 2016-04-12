@@ -1,0 +1,4 @@
+---
+applications:
+- name: cfenv-spring
+  buildpack: java_buildpack
