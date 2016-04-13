@@ -1,4 +1,8 @@
 ---
 applications:
 - name: cfenv-spring
+  memory: 1024M
+  instances: 3
   buildpack: java_buildpack
+  host: cfenv-spring
+  domain: cfapps.io

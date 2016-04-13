@@ -24,5 +24,5 @@ jobs:
   - put: pivotal-web-services
     params:
       path: jar/cfenv.jar
-      current_app_name: cwest-cfenv-spring
+      current_app_name: cfenv-spring
       manifest: cfenv/manifest.yml
