@@ -1,6 +1,7 @@
 package com.example;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
@@ -17,27 +18,20 @@ public class CfenvApplication {
 
 @RestController
 class CfenvController {
-    public final Environment environment;
-
-    @Autowired
-    public CfenvController(Environment environment) {
-        this.environment = environment;
-    }
-
     @RequestMapping("/")
-    public CloudFoundryEnvironment cloudFoundryEnvironment() {
-        return new CloudFoundryEnvironment(environment.getProperty("CF_INSTANCE_INDEX"));
+    public CloudFoundryEnvironment cloudFoundryEnvironment(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
+        return new CloudFoundryEnvironment(instance);
     }
 }
 
 class CloudFoundryEnvironment {
-    private final String instance;
+    private final int instance;
 
-    public CloudFoundryEnvironment(String instance) {
+    public CloudFoundryEnvironment(int instance) {
         this.instance = instance;
     }
 
-    public String getInstance() {
+    public int getInstance() {
         return instance;
     }
 }
