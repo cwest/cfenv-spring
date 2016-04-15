@@ -5,4 +5,3 @@ applications:
   instances: 3
   buildpack: java_buildpack
   host: cfenv-spring
-  domain: cfapps.io

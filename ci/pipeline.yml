@@ -9,7 +9,7 @@ resources:
   type: cf
   source:
     api: {{pcf-api}}
-    skip_cert_check: {{pcf-skip-cert-check}}
+    skip_cert_check: true
     username: {{pcf-username}}
     password: {{pcf-password}}
     organization: {{pcf-organization}}
