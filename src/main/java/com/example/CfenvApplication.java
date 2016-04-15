@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @SpringBootApplication
 public class CfenvApplication {
 
@@ -21,46 +24,43 @@ public class CfenvApplication {
 	}
 
     @Bean
-    StringRedisTemplate stringRedisTemplate(RedisTemplate rt) {
-        return new StringRedisTemplate(rt.getConnectionFactory());
+    StringRedisTemplate stringRedisTemplate(RedisTemplate template) {
+        return new StringRedisTemplate(template.getConnectionFactory());
+    }
+
+    @Bean
+    RedisAtomicLong redisAtomicLong(StringRedisTemplate template) {
+        return new RedisAtomicLong("visits", template.getConnectionFactory());
     }
 
 }
 
 @RestController
 class CfenvController {
-    private final CloudFoundryDemo demo;
-
     @Autowired
-    public CfenvController(CloudFoundryDemo demo) {
-        this.demo = demo;
-    }
+    private RedisAtomicLong visits;
 
     @RequestMapping("/")
     public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
-        demo.setInstance(instance);
-        return this.demo;
+        return new CloudFoundryDemo (instance, visits.incrementAndGet());
     }
 }
 
 
-@Component
 class CloudFoundryDemo {
     private int instance;
-    private final RedisAtomicLong visits;
+    private long visits;
 
-    @Autowired
-    public CloudFoundryDemo(StringRedisTemplate template) {
-        this.visits = new RedisAtomicLong("visits", template.getConnectionFactory());
+    public CloudFoundryDemo(int instance, long visits) {
+        this.instance = instance;
+        this.visits = visits;
     }
 
     public int getInstance() {
         return instance;
     }
 
-    public void setInstance(int instance) {
-        this.instance = instance;
+    public long getVisits() {
+        return visits;
     }
-
-    public long getVisits() { return visits.incrementAndGet(); }
 }
