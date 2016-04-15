@@ -5,14 +5,15 @@ resources:
   source:
     uri: https://github.com/cwest/cfenv-spring
     branch: master
-- name: pivotal-web-services
+- name: pivotal-cloud-foundry
   type: cf
   source:
-    api: http://api.run.pivotal.io
-    username: {{pws-username}}
-    password: {{pws-password}}
-    organization: {{pws-organization}}
-    space: {{pws-space}}
+    api: {{pcf-api}}
+    skip_cert_check: {{pcf-skip-cert-check}}
+    username: {{pcf-username}}
+    password: {{pcf-password}}
+    organization: {{pcf-organization}}
+    space: {{pcf-space}}
 
 jobs:
 - name: make-jar-not-war
@@ -21,7 +22,7 @@ jobs:
     trigger: true
   - task: maven-install
     file: cfenv/ci/tasks/build.yml
-  - put: pivotal-web-services
+  - put: pivotal-cloud-foundry
     params:
       path: jar/cfenv.jar
       current_app_name: cfenv-spring
