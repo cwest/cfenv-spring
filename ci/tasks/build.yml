@@ -14,5 +14,5 @@ run:
   args:
   - -exc
   - |
-    cd cfenv && mvn install
+    cd cfenv && mvn -DskipTests=true install
     mv target/cfenv*.jar ../jar/cfenv.jar
