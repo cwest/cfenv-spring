@@ -19,15 +19,15 @@ public class CfenvApplication {
 @RestController
 class CfenvController {
     @RequestMapping("/")
-    public CloudFoundryEnvironment cloudFoundryEnvironment(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
-        return new CloudFoundryEnvironment(instance);
+    public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
+        return new CloudFoundryDemo(instance);
     }
 }
 
-class CloudFoundryEnvironment {
+class CloudFoundryDemo {
     private final int instance;
 
-    public CloudFoundryEnvironment(int instance) {
+    public CloudFoundryDemo(int instance) {
         this.instance = instance;
     }
 
