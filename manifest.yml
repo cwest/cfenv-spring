@@ -1,7 +1,9 @@
 ---
 applications:
 - name: cfenv-spring
-  memory: 1024M
-  instances: 3
+  memory: 512M
+  instances: 2
   buildpack: java_buildpack
   host: cfenv-spring
+  services:
+  - cfenv-redis
