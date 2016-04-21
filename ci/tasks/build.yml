@@ -14,5 +14,5 @@ run:
   args:
   - -exc
   - |
-    ./mvnw install
+    cd cfenv && ./mvnw install
     mv target/cfenv*.jar ../jar/cfenv.jar
