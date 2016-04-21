@@ -3,8 +3,8 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: maven
-    tag: "3"
+    repository: java
+    tag: "8"
 inputs:
 - name: cfenv
 outputs:
@@ -14,5 +14,5 @@ run:
   args:
   - -exc
   - |
-    cd cfenv && mvn -DskipTests=true install
+    ./mvn install
     mv target/cfenv*.jar ../jar/cfenv.jar
