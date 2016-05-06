@@ -25,7 +25,6 @@ jobs:
 - name: make-jar-not-war
   plan:
   - get: cfenv
-    trigger: true
   - task: maven-install
     file: cfenv/ci/tasks/build.yml
   - put: pivotal-cloud-foundry
