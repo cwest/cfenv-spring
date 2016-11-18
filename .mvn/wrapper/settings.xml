@@ -1,3 +1,4 @@
+<settings>
 <profile>
       <id>securecentral</id>
       <activation>
@@ -24,3 +25,4 @@
         </pluginRepository>
       </pluginRepositories>
     </profile>
+  </settings>
