@@ -12,7 +12,7 @@ resources:
     uri: https://github.com/cwest/cfenv-spring
     branch: master
 - name: pivotal-cloud-foundry
-  type: cf-good
+  type: cf
   source:
     api: {{pcf-api}}
     skip_cert_check: true
