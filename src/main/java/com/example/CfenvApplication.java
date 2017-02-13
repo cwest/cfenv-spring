@@ -19,19 +19,25 @@ public class CfenvApplication {
 @RestController
 class CfenvController {
     @RequestMapping("/")
-    public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
-        return new CloudFoundryDemo(instance);
+    public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance, @Value("${cloud.application.version}") String version) {
+        return new CloudFoundryDemo(instance, version);
     }
 }
 
 class CloudFoundryDemo {
     private final int instance;
+    private String version;
 
-    public CloudFoundryDemo(int instance) {
+    public CloudFoundryDemo(int instance, String version) {
         this.instance = instance;
+        this.version = version;
     }
 
     public int getInstance() {
         return instance;
+    }
+
+    public String getVersion() {
+        return version.split("-")[0];
     }
 }
