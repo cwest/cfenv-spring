@@ -21,6 +21,7 @@ resources:
 
 jobs:
 - name: run-it-in-the-cloud-for-me
+  max_in_flight: 1
   plan:
   - get: frequently
     trigger: true
