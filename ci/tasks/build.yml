@@ -6,7 +6,7 @@ image_resource:
     repository: java
     tag: 8-alpine
 inputs:
-- name: cfenv
+- name: here-is-my-source-code
 outputs:
 - name: jar
 run:
@@ -14,5 +14,6 @@ run:
   args:
   - -exc
   - |
-    cd cfenv && ./mvnw install
-    mv target/cfenv*.jar ../jar/cfenv.jar
+    cd here-is-my-source-code \
+    && ./mvnw package \
+    && mv target/cfenv*.jar ../jar/cfenv.jar
