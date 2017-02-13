@@ -1,18 +1,12 @@
 ---
-resource_types:
-  - name: cf-good
-    type: docker-image
-    source:
-      repository: caseywest/cf-release
-
 resources:
-- name: cfenv
+- name: here-is-my-source-code
   type: git
   source:
     uri: https://github.com/cwest/cfenv-spring
     branch: master
-- name: pivotal-cloud-foundry
-  type: cf-good
+- name: i-do-not-care-how
+  type: cf
   source:
     api: {{pcf-api}}
     skip_cert_check: true
@@ -20,15 +14,22 @@ resources:
     password: {{pcf-password}}
     organization: {{pcf-organization}}
     space: {{pcf-space}}
+- name: frequently
+  type: time
+  source:
+    interval: 2m
 
 jobs:
-- name: make-jar-not-war
+- name: run-it-in-the-cloud-for-me
   plan:
-  - get: cfenv
-  - task: maven-install
-    file: cfenv/ci/tasks/build.yml
-  - put: pivotal-cloud-foundry
+  - get: frequently
+    trigger: true
+  - get: here-is-my-source-code
+    trigger: true
+  - task: build
+    file: here-is-my-source-code/ci/tasks/build.yml
+  - put: i-do-not-care-how
     params:
       path: jar/cfenv.jar
       current_app_name: cfenv-spring
-      manifest: cfenv/manifest.yml
+      manifest: here-is-my-source-code/manifest.yml
