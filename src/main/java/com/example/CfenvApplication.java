@@ -41,23 +41,29 @@ class CfenvController {
     private RedisAtomicLong visits;
 
     @RequestMapping("/")
-    public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance) {
-        return new CloudFoundryDemo (instance, visits.incrementAndGet());
+    public CloudFoundryDemo cloudFoundryDemo(@Value("${CF_INSTANCE_INDEX:0}") int instance, @Value("${cloud.application.version}") String version) {
+        return new CloudFoundryDemo (instance, version, visits.incrementAndGet());
     }
 }
 
 
 class CloudFoundryDemo {
     private int instance;
+    private String version;
     private long visits;
 
-    public CloudFoundryDemo(int instance, long visits) {
+    public CloudFoundryDemo(int instance, String version, long visits) {
         this.instance = instance;
+        this.version = version;
         this.visits = visits;
     }
 
     public int getInstance() {
         return instance;
+    }
+
+    public String getVersion() {
+        return version.split("-")[0];
     }
 
     public long getVisits() {
