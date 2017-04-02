@@ -3,5 +3,5 @@ applications:
 - name: cfenv-spring
   memory: 512M
   instances: 2
-  buildpack: java_buildpack
+  buildpack: java_buildpack_offline
   host: cfenv-spring
